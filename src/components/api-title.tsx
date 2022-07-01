@@ -6,21 +6,26 @@ export const ApiTitle: FC<{ title: string; docsLink: string }> = ({
   docsLink
 }) => {
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
+    <Box
+      mb="sm"
+      sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}
+    >
       <Title
         order={2}
+        pl="xs"
         mr="sm"
         sx={(theme) => ({
           whiteSpace: 'nowrap',
           [`@media(max-width: ${theme.breakpoints.sm}px)`]: {
-            marginBottom: '0.5rem'
+            marginBottom: '0.5rem',
+            paddingLeft: 0
           }
         })}
       >
         {title}
       </Title>
       <Badge color="gray" radius="sm" p="md">
-        <Anchor color="orange" href={docsLink} target="_blank">
+        <Anchor color="yellow" href={docsLink} target="_blank">
           Docs
         </Anchor>
       </Badge>

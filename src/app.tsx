@@ -1,35 +1,41 @@
-import { Box, UnstyledButton } from '@mantine/core';
-import { useState } from 'react';
+import { Box, Stack, UnstyledButton } from '@mantine/core';
 import { BrowserRouter, Link, Navigate, Route, Routes } from 'react-router-dom';
 import { Layout } from './components/layout';
 import { DEFAULT_PATH, ROUTES } from './routes';
+import { useUiStore } from './store';
 
 export const App = () => {
-  const [opened, setOpened] = useState(false);
+  const setMenuOpened = useUiStore((state) => state.menu.setMenuOpened);
 
   return (
     <BrowserRouter>
       <Layout
-        menuOpened={opened}
-        setMenuOpened={setOpened}
         navbarContent={
-          <Box onClick={() => setOpened(false)}>
-            {Object.entries(ROUTES).map(([routeName, V]) => (
-              <Link to={V.path} key={V.path} style={{ textDecoration: 'none' }}>
-                <UnstyledButton
-                  sx={(theme) => ({
-                    display: 'block',
-                    width: '100%',
-                    padding: theme.spacing.xs,
-                    '&:hover': {
-                      backgroundColor: theme.colors.gray[0]
-                    }
-                  })}
+          <Box onClick={() => setMenuOpened(false)}>
+            <Stack spacing="sm">
+              {Object.entries(ROUTES).map(([routeName, V]) => (
+                <Link
+                  to={V.path}
+                  key={V.path}
+                  style={{ textDecoration: 'none' }}
                 >
-                  {routeName}
-                </UnstyledButton>
-              </Link>
-            ))}
+                  <UnstyledButton
+                    sx={({ spacing, colors, radius }) => ({
+                      display: 'block',
+                      width: '100%',
+                      borderRadius: radius.sm,
+                      padding: spacing.xs,
+                      backgroundColor: colors.gray[0],
+                      '&:hover': {
+                        backgroundColor: colors.gray[1]
+                      }
+                    })}
+                  >
+                    {routeName}
+                  </UnstyledButton>
+                </Link>
+              ))}
+            </Stack>
           </Box>
         }
       >

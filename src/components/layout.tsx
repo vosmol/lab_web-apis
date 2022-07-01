@@ -7,23 +7,17 @@ import {
   useMantineTheme
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import {
-  Dispatch,
-  FC,
-  PropsWithChildren,
-  ReactNode,
-  SetStateAction
-} from 'react';
+import { FC, PropsWithChildren, ReactNode } from 'react';
+import { useUiStore } from '../store';
 
 export const Layout: FC<
   PropsWithChildren<{
-    menuOpened: boolean;
-    setMenuOpened: Dispatch<SetStateAction<boolean>>;
     navbarContent: ReactNode;
   }>
-> = ({ children, navbarContent, menuOpened, setMenuOpened }) => {
+> = ({ children, navbarContent }) => {
   const theme = useMantineTheme();
   const matches = useMediaQuery(`(max-width: ${theme.breakpoints.sm}px)`);
+  const { opened, toggleMenu } = useUiStore((state) => state.menu);
 
   return (
     <AppShell
@@ -33,12 +27,7 @@ export const Layout: FC<
         matches ? (
           <Header height={60} p="md">
             <Box sx={{ display: 'flex', alignItems: 'center', height: '100%' }}>
-              <Burger
-                opened={menuOpened}
-                onClick={() => setMenuOpened((o) => !o)}
-                size="sm"
-                mr="xl"
-              />
+              <Burger opened={opened} onClick={toggleMenu} size="sm" mr="xl" />
             </Box>
           </Header>
         ) : undefined
@@ -47,7 +36,7 @@ export const Layout: FC<
         <Navbar
           p="md"
           hiddenBreakpoint="sm"
-          hidden={!menuOpened}
+          hidden={!opened}
           width={{ sm: 300 }}
         >
           {navbarContent}
