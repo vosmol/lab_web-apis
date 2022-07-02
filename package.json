@@ -1,7 +1,6 @@
 {
   "name": "lab_web-apis",
   "private": true,
-  "version": "0.0.0",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
